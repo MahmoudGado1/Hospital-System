@@ -10,8 +10,10 @@ import { errorMiddleware } from "./middlewares/errorMiddlewares.js";
 import appointmentRouter from "./router/appointmentRouter.js";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import path from "path";
 const app = express();
 
+const _dirname=path.resolve();
 
 const options = {
   definition: {
@@ -50,12 +52,16 @@ app.use(
     useTempFiles: true,
     tempFileDir: "/tmp/",
   })
-);
+); 
 
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
+app.use(express.static(path.join(_dirname,"./FrontEnd/dist")));
 
+app.use("*", (_, res) => {
+  res.sendFile(path.resolve(_dirname,"FrontEnd","dist","index.html"));
+})
 dbConnection()
 
 app.use(errorMiddleware);
