@@ -34,7 +34,7 @@ const options = {
 const swaggerSpec = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-config({ path: "./config/config.env" });
+config({ path: ".env" });
 
 // CORS helps with security by specifying which origins can access the resources.
 app.use(
